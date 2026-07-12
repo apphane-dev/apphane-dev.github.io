@@ -1,0 +1,238 @@
+---
+import Base from '../layouts/Base.astro';
+import WindowStrip from '../components/WindowStrip.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+---
+
+<Base
+  title="apphane — a house for small, sharp tools"
+  description="apphane, from Turkish -hane (“house of”), is the home of our apps, tools, and ideas. Open source by default, each named in Turkish, each built to do one thing well."
+>
+  <header class="top">
+    <a class="home" href="/" aria-label="apphane home">
+      <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
+        <g fill="var(--amber)">
+          <rect x="8" y="8" width="21" height="21" rx="5"></rect>
+          <rect x="35" y="8" width="21" height="21" rx="5"></rect>
+          <rect x="8" y="35" width="21" height="21" rx="5"></rect>
+        </g>
+        <rect x="35" y="35" width="21" height="21" rx="5" fill="var(--cream)"></rect>
+      </svg>
+      <span>apphane</span>
+    </a>
+    <nav>
+      <a href="https://github.com/apphane-dev">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <img
+        class="mark"
+        src="/apphane-logo.png"
+        alt="apphane — a house drawn with curly braces, windows lit amber. Apps, tools, ideas."
+        width="400"
+        height="400"
+        fetchpriority="high"
+      />
+      <h1>A house for small, sharp&nbsp;tools.</h1>
+      <p class="sub">
+        <strong>apphane</strong> — from Turkish <em lang="tr">-hane</em>, “house of” — is where our
+        apps, tools, and ideas live. Open source by default, each named in Turkish, each built to do
+        one thing well.
+      </p>
+      <div class="strip-wrap">
+        <WindowStrip />
+      </div>
+    </section>
+
+    <section class="residents" aria-labelledby="residents-heading">
+      <h2 class="eyebrow" id="residents-heading">In the house</h2>
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </section>
+
+    <section class="ethos" aria-labelledby="ethos-heading">
+      <h2 class="eyebrow" id="ethos-heading">House rules</h2>
+      <div class="rules">
+        <div class="rule">
+          <h3>Open source by default</h3>
+          <p>
+            The code lives in the open, under real licenses. Nehir ships as GPL-2.0-only, and new
+            residents will open their doors too.
+          </p>
+        </div>
+        <div class="rule">
+          <h3>Lineage stays visible</h3>
+          <p>
+            Tools built on other people's work say so, file by file. Nehir credits its OmniWM
+            foundation in a <a href="https://github.com/apphane-dev/nehir/blob/main/NOTICE.md"
+              >NOTICE</a
+            > that tracks the provenance of every source file.
+          </p>
+        </div>
+        <div class="rule">
+          <h3>One thing, done well</h3>
+          <p>
+            Each project keeps a deliberately narrow scope. Nehir is one layout model — scrolling
+            columns — not a window manager for every taste.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bottom">
+    <span>© 2026 apphane</span>
+    <span class="dots" aria-hidden="true">apps · tools · ideas</span>
+    <a href="https://github.com/apphane-dev">github.com/apphane-dev</a>
+  </footer>
+</Base>
+
+<style>
+  .top {
+    max-width: var(--page);
+    margin: 0 auto;
+    padding: 1.4rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .home {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--cream);
+  }
+
+  .top nav a {
+    font-weight: 500;
+    color: var(--cream);
+  }
+
+  .top nav a:hover {
+    color: var(--amber);
+  }
+
+  main {
+    max-width: var(--page);
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 2.5rem 0 4.5rem;
+  }
+
+  .mark {
+    width: 240px;
+    height: 240px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    line-height: 1.1;
+    margin-top: 1.2rem;
+    letter-spacing: -0.01em;
+  }
+
+  .sub {
+    max-width: var(--measure);
+    margin: 1.3rem auto 0;
+    font-size: 1.125rem;
+    color: var(--cream-dim);
+  }
+
+  .sub strong {
+    color: var(--cream);
+  }
+
+  .strip-wrap {
+    margin-top: 3.2rem;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--amber);
+    margin-bottom: 1.6rem;
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 0.55em;
+    height: 0.55em;
+    border-radius: 0.15em;
+    background: var(--amber);
+    margin-right: 0.7em;
+  }
+
+  .residents {
+    padding: 2rem 0;
+  }
+
+  .ethos {
+    padding: 3.5rem 0 1rem;
+  }
+
+  .rules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 2.2rem;
+  }
+
+  .rule h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .rule p {
+    color: var(--cream-dim);
+    font-size: 0.9875rem;
+  }
+
+  .bottom {
+    max-width: var(--page);
+    margin: 0 auto;
+    padding: 2rem 1.5rem 2.6rem;
+    border-top: 1px solid var(--cream-faint);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.9375rem;
+    color: var(--cream-dim);
+  }
+
+  .dots {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 40rem) {
+    .hero {
+      padding-top: 1.2rem;
+    }
+    .mark {
+      width: 180px;
+      height: 180px;
+    }
+  }
+</style>
