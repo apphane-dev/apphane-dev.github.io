@@ -7,6 +7,8 @@ import { projects, HOUSE_WINDOWS } from '../data/projects';
  * are rooms still being furnished.
  */
 const windows = Array.from({ length: HOUSE_WINDOWS }, (_, i) => projects[i] ?? null);
+const projectCount = projects.length;
+const caption = `${projectCount === 1 ? 'One light is' : `${projectCount} lights are`} on. More rooms are being furnished.`;
 ---
 
 <div class="strip" role="list" aria-label="Projects in the house">
@@ -35,7 +37,7 @@ const windows = Array.from({ length: HOUSE_WINDOWS }, (_, i) => projects[i] ?? n
     )
   }
 </div>
-<p class="strip-caption">One light is on. More rooms are being furnished.</p>
+<p class="strip-caption">{caption}</p>
 
 <style>
   .strip {

@@ -48,6 +48,35 @@ export const projects: Project[] = [
       { label: 'Releases', href: 'https://github.com/apphane-dev/nehir/releases' },
     ],
   },
+  {
+    id: 'kahraman',
+    name: 'kahraman',
+    turkish: { word: 'kahraman', meaning: 'hero' },
+    tagline: 'Accessibility-first tests that read like a user’s story.',
+    description:
+      'A codecept-style test actor and fluent locator DSL for Storybook portable stories and Vitest browser mode. Kahraman steers tests toward roles, accessible names, and visible text so the easiest tests to write are also the ones that reflect what users perceive.',
+    features: [
+      'Declarative I.see / I.click actor',
+      'Accessibility-first locator DSL',
+      'Storybook portable stories',
+      'Vitest browser mode',
+      'Readable failure diagnostics',
+      'Extensible page actors',
+      'React, Vue, and Svelte ready',
+    ],
+    install: {
+      label: 'Install from npm',
+      command: 'npm install --save-dev kahraman',
+    },
+    license: 'MIT',
+    platform: 'Storybook / Vitest',
+    language: 'TypeScript',
+    links: [
+      { label: 'GitHub', href: 'https://github.com/apphane-dev/kahraman' },
+      { label: 'npm', href: 'https://www.npmjs.com/package/kahraman' },
+      { label: 'Releases', href: 'https://github.com/apphane-dev/kahraman/releases' },
+    ],
+  },
 ];
 
 /** Total windows in the strip: lit ones are shipped projects, dark ones are rooms being furnished. */
