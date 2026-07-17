@@ -77,6 +77,35 @@ export const projects: Project[] = [
       { label: 'Releases', href: 'https://github.com/apphane-dev/kahraman/releases' },
     ],
   },
+  {
+    id: 'karkas',
+    name: 'karkas',
+    turkish: { word: 'karkas', meaning: 'framework / skeleton' },
+    tagline: 'An opinionated modern React stack, wired end to end.',
+    description:
+      'A reference application and template for a modern React stack — Nub for packaging, React 19, Reatom state, Panda CSS with Park UI components, ParaglideJS i18n, and Storybook portable stories tested with Vitest browser mode through kahraman. Organized by Feature-Sliced Design so the skeleton stays legible as it grows.',
+    features: [
+      'Nub + mise + hk toolchain',
+      'React 19 with Reatom state',
+      'Panda CSS and Park UI components',
+      'ParaglideJS internationalization',
+      'Storybook portable stories',
+      'kahraman-driven Vitest tests',
+      'Feature-Sliced Design layout',
+    ],
+    install: {
+      label: 'Clone the template',
+      command: 'git clone https://github.com/apphane-dev/karkas.git',
+    },
+    license: 'MIT',
+    platform: 'Web',
+    language: 'TypeScript',
+    links: [
+      { label: 'GitHub', href: 'https://github.com/apphane-dev/karkas' },
+      { label: 'Demo', href: 'https://karkas.apphane.dev' },
+      { label: 'Storybook', href: 'https://karkas.apphane.dev/storybook/' },
+    ],
+  },
 ];
 
 /** Total windows in the strip: lit ones are shipped projects, dark ones are rooms being furnished. */
