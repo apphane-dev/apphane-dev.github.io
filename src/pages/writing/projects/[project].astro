@@ -37,6 +37,7 @@ const entries = (await getPublishedWriting()).filter((e) =>
     </div>
     <section class="writing-list" aria-label={`Writing about ${label}`}>
       {entries.map((entry) => <WritingCard entry={entry} />)}
+      {entries.length === 0 && <p class="empty">Nothing written about {label} yet.</p>}
     </section>
     <p class="all"><a href="/writing/">← All writing</a></p>
   </main>
@@ -44,6 +45,10 @@ const entries = (await getPublishedWriting()).filter((e) =>
 </Base>
 
 <style>
+  .empty {
+    color: var(--cream-dim);
+    padding: 2rem 0;
+  }
   .all {
     margin-top: 2rem;
     font-family: var(--font-mono);

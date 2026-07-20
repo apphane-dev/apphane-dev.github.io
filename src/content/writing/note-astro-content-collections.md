@@ -1,4 +1,5 @@
 ---
+example: true
 title: 'Example note: A working reference for Astro content collections'
 description: A placeholder growing note collecting the small facts worth keeping about Astro's content layer.
 kind: note

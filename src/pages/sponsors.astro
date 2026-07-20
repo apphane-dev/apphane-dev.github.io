@@ -2,7 +2,13 @@
 import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/site/SiteHeader.astro';
 import SiteFooter from '../components/site/SiteFooter.astro';
-import { tiers, tierAmount, sponsors, sponsorLink } from '../data/sponsors';
+import {
+  tiers,
+  tierAmount,
+  visibleSponsors,
+  showSeedNote,
+  sponsorLink,
+} from '../data/sponsors';
 
 const funds = [
   'Time — the scarce input. Sponsorship buys hours to maintain and document, not just to build.',
@@ -68,21 +74,27 @@ const funds = [
 
     <section class="block" aria-labelledby="wall-head">
       <h2 class="eyebrow" id="wall-head">On the wall<span class="tr" lang="tr" aria-hidden="true">duvar</span></h2>
-      <p class="seed-note">
-        <strong>Seed placeholder.</strong> The sponsor below is an example showing how names
-        appear. Real supporters replace it.
-      </p>
-      <ul class="wall">
-        {
-          sponsors.map((s) => (
+      {showSeedNote && (
+        <p class="seed-note">
+          <strong>Seed placeholder.</strong> The sponsor below is an example showing how names
+          appear. Real supporters replace it.
+        </p>
+      )}
+      {visibleSponsors.length > 0 ? (
+        <ul class="wall">
+          {visibleSponsors.map((s) => (
             <li class="sponsor">
               <a href={s.url}>{s.name}</a>
               <span class="tier-tag">{s.tier}</span>
               {s.blurb && <span class="sponsor-blurb">{s.blurb}</span>}
             </li>
-          ))
-        }
-      </ul>
+          ))}
+        </ul>
+      ) : (
+        <p class="wall-empty">
+          No names on the wall yet. Be the first to keep a light on — your thanks appears here.
+        </p>
+      )}
     </section>
 
     <section class="block independence" aria-labelledby="indep-head">
@@ -266,6 +278,11 @@ const funds = [
     flex-basis: 100%;
     color: var(--cream-dim);
     font-size: 0.9rem;
+  }
+
+  .wall-empty {
+    color: var(--cream-dim);
+    font-style: italic;
   }
 
   .independence p {

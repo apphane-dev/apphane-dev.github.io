@@ -1,4 +1,5 @@
 ---
+example: true
 title: 'Example article: Tests should read like a user telling a story'
 description: A placeholder opinion piece on writing tests around roles and accessible names instead of implementation details.
 kind: article

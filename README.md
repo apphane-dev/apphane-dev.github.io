@@ -15,6 +15,14 @@ npm run build    # production build to ./dist
 npm run preview  # preview the production build
 ```
 
+### Example content
+
+Seed/example content (placeholder writing posts, recommendations, and sponsors)
+is hidden by default. Set the build-time flag `SHOW_EXAMPLES=1` to include it in
+a dev/preview build — e.g. `SHOW_EXAMPLES=1 npx astro build`. The flag is read
+in `src/lib/flags.ts` and applied at each data query (`src/lib/writing.ts` and
+the `src/data/*` modules).
+
 ## Adding a project
 
 Projects are data-driven: add an entry to `src/data/projects.ts` and its card

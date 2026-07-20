@@ -1,4 +1,5 @@
 ---
+example: true
 title: 'Example update: Nehir turns on its first light'
 description: A placeholder update showing how release news reads in the house — what changed, why it matters, and where to try it.
 kind: update

@@ -4,11 +4,14 @@ import Base from '../../layouts/Base.astro';
 import SiteHeader from '../../components/site/SiteHeader.astro';
 import SiteFooter from '../../components/site/SiteFooter.astro';
 import { getPublishedWriting, formatDate, isoDate } from '../../lib/writing';
+import { SHOW_EXAMPLES } from '../../lib/flags';
 import { kinds, topicLabel, type TopicId } from '../../data/topics';
 import { projectLabels, projectHomes, type ProjectId } from '../../data/projects';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('writing');
+  const entries = await getCollection('writing', ({ data }) =>
+    SHOW_EXAMPLES ? true : !data.example,
+  );
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 

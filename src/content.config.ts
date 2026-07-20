@@ -24,6 +24,8 @@ const writing = defineCollection({
     topics: z.array(topicId).default([]),
     projects: z.array(projectId).default([]),
     featured: z.boolean().default(false),
+    /** Seed/example post — hidden unless the SHOW_EXAMPLES build flag is set. */
+    example: z.boolean().default(false),
     // update-only
     changeType: z
       .enum(['launch', 'release', 'milestone', 'status', 'retrospective'])

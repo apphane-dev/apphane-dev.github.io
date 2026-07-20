@@ -1,4 +1,5 @@
 import type { TopicId } from './topics';
+import { SHOW_EXAMPLES } from '../lib/flags';
 
 export type RecCategory =
   | 'software'
@@ -74,6 +75,17 @@ export const recommendations: Recommendation[] = [
     placeholder: true,
   },
 ];
+
+/**
+ * The choke point for the recommendations page. Placeholder seed entries are
+ * dropped unless the SHOW_EXAMPLES build flag is set. `showSeedNote` gates the
+ * "Seed placeholders" banner so it only appears alongside visible placeholders.
+ */
+export const visibleRecommendations: Recommendation[] = SHOW_EXAMPLES
+  ? recommendations
+  : recommendations.filter((r) => !r.placeholder);
+
+export const showSeedNote = SHOW_EXAMPLES;
 
 export const relationshipLabels: Record<Recommendation['relationship'], string> = {
   none: '',

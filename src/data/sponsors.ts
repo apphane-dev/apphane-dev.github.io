@@ -1,3 +1,5 @@
+import { SHOW_EXAMPLES } from '../lib/flags';
+
 export type Tier = 'resident' | 'patron' | 'supporter';
 
 export interface TierInfo {
@@ -89,3 +91,14 @@ export const sponsors: Sponsor[] = [
     placeholder: true,
   },
 ];
+
+/**
+ * The choke point for the sponsors wall. Placeholder seed entries are dropped
+ * unless the SHOW_EXAMPLES build flag is set. `showSeedNote` gates the "Seed
+ * placeholder" banner so it only appears alongside a visible placeholder.
+ */
+export const visibleSponsors: Sponsor[] = SHOW_EXAMPLES
+  ? sponsors
+  : sponsors.filter((s) => !s.placeholder);
+
+export const showSeedNote = SHOW_EXAMPLES;

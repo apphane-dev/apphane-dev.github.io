@@ -3,7 +3,8 @@ import Base from '../../layouts/Base.astro';
 import SiteHeader from '../../components/site/SiteHeader.astro';
 import SiteFooter from '../../components/site/SiteFooter.astro';
 import {
-  recommendations,
+  visibleRecommendations,
+  showSeedNote,
   categoryLabels,
   relationshipLabels,
   type RecCategory,
@@ -13,10 +14,10 @@ import { formatDate } from '../../lib/writing';
 
 // Group by category, preserving the order categories first appear.
 const order: RecCategory[] = [];
-for (const r of recommendations) if (!order.includes(r.category)) order.push(r.category);
+for (const r of visibleRecommendations) if (!order.includes(r.category)) order.push(r.category);
 const grouped = order.map((cat) => ({
   cat,
-  items: recommendations.filter((r) => r.category === cat),
+  items: visibleRecommendations.filter((r) => r.category === cat),
 }));
 ---
 
@@ -37,10 +38,16 @@ const grouped = order.map((cat) => ({
       </p>
     </div>
 
-    <p class="seed-note">
-      <strong>Seed placeholders.</strong> These entries are examples that show the format. Real
-      recommendations replace them one at a time.
-    </p>
+    {showSeedNote && (
+      <p class="seed-note">
+        <strong>Seed placeholders.</strong> These entries are examples that show the format. Real
+        recommendations replace them one at a time.
+      </p>
+    )}
+
+    {grouped.length === 0 && (
+      <p class="empty">The shelf is being furnished — recommendations arrive soon.</p>
+    )}
 
     {
       grouped.map((group) => (
@@ -78,6 +85,12 @@ const grouped = order.map((cat) => ({
 </Base>
 
 <style>
+  .empty {
+    color: var(--cream-dim);
+    font-style: italic;
+    padding: 2rem 0;
+  }
+
   .group {
     margin-bottom: 3rem;
   }
