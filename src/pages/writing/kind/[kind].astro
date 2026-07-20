@@ -20,7 +20,7 @@ const entries = (await getPublishedWriting()).filter((e) => e.data.kind === kind
   <SiteHeader />
   <main id="main" class="page">
     <div class="page-head">
-      <p class="eyebrow">Writing / {info.plural}</p>
+      <p class="eyebrow">Writing / {info.plural}<span class="tr" lang="tr" aria-hidden="true">yazı</span></p>
       <h1>{info.plural}</h1>
       <p class="lede">{info.blurb}</p>
     </div>

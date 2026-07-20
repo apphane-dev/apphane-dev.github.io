@@ -36,12 +36,12 @@ import { projects } from '../data/projects';
     </section>
 
     <section class="residents" id="residents" aria-labelledby="residents-heading">
-      <h2 class="eyebrow" id="residents-heading">In the house</h2>
+      <h2 class="eyebrow" id="residents-heading">In the house<span class="tr" lang="tr" aria-hidden="true">hane</span></h2>
       {projects.map((project) => <ProjectCard project={project} />)}
     </section>
 
     <section class="ethos" aria-labelledby="ethos-heading">
-      <h2 class="eyebrow" id="ethos-heading">House rules</h2>
+      <h2 class="eyebrow" id="ethos-heading">House rules<span class="tr" lang="tr" aria-hidden="true">kurallar</span></h2>
       <div class="rules">
         <div class="rule">
           <h3>Open source by default</h3>

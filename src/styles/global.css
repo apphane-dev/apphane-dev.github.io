@@ -110,6 +110,18 @@ code {
   margin-bottom: 1.6rem;
 }
 
+/* A dimmed Turkish echo trailing the English eyebrow — same mono voice as the
+   project names, purely decorative (aria-hidden) so it never doubles up for
+   screen readers. Rendered in the word's natural lowercase to keep proper
+   Turkish glyphs (ı ş ğ ü ö ç) intact rather than uppercasing them. */
+.eyebrow .tr {
+  margin-left: 0.6em;
+  color: var(--cream-dim);
+  opacity: 0.6;
+  text-transform: none;
+  letter-spacing: 0.1em;
+}
+
 .eyebrow::before {
   content: '';
   display: inline-block;
