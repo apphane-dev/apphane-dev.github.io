@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/site/SiteHeader.astro';
 import SiteFooter from '../components/site/SiteFooter.astro';
-import { tiers, sponsors, sponsorLink } from '../data/sponsors';
+import { tiers, tierAmount, sponsors, sponsorLink } from '../data/sponsors';
 
 const funds = [
   'Time — the scarce input. Sponsorship buys hours to maintain and document, not just to build.',
@@ -19,7 +19,7 @@ const funds = [
   <SiteHeader />
   <main id="main" class="page">
     <div class="page-head">
-      <p class="eyebrow">Sponsors</p>
+      <p class="eyebrow">Sponsors<span class="tr" lang="tr" aria-hidden="true">destek</span></p>
       <h1>Keep a light on.</h1>
       <p class="lede">
         Everything here is open source and free to use. Sponsorship is how people who get value
@@ -32,20 +32,34 @@ const funds = [
     </div>
 
     <section class="block" aria-labelledby="funds-head">
-      <h2 class="eyebrow" id="funds-head">What it funds</h2>
+      <h2 class="eyebrow" id="funds-head">What it funds<span class="tr" lang="tr" aria-hidden="true">bütçe</span></h2>
       <ul class="funds">
         {funds.map((f) => <li>{f}</li>)}
       </ul>
     </section>
 
     <section class="block" aria-labelledby="tiers-head">
-      <h2 class="eyebrow" id="tiers-head">Ways to help</h2>
+      <h2 class="eyebrow" id="tiers-head">Ways to help<span class="tr" lang="tr" aria-hidden="true">yardım</span></h2>
+      <p class="tiers-note">
+        Figures are indicative — set any amount on GitHub. Higher tiers get more prominent thanks:
+        beyond this page, sponsors are named in the READMEs of the apphane projects and, at the top
+        tier, on the apps' own about screens. It is a thank-you and a disclosure, never a say in what
+        the house builds, writes, or recommends.
+      </p>
       <div class="tiers">
         {
           tiers.map((tier) => (
             <article class="tier">
-              <h3>{tier.label}</h3>
-              <p>{tier.blurb}</p>
+              <div class="tier-top">
+                <h3>{tier.label}</h3>
+                <span class="tier-amount">{tierAmount(tier)}</span>
+              </div>
+              <p class="tier-blurb">{tier.blurb}</p>
+              <ul class="placement">
+                {tier.placement.map((p) => (
+                  <li>{p}</li>
+                ))}
+              </ul>
             </article>
           ))
         }
@@ -53,7 +67,7 @@ const funds = [
     </section>
 
     <section class="block" aria-labelledby="wall-head">
-      <h2 class="eyebrow" id="wall-head">On the wall</h2>
+      <h2 class="eyebrow" id="wall-head">On the wall<span class="tr" lang="tr" aria-hidden="true">duvar</span></h2>
       <p class="seed-note">
         <strong>Seed placeholder.</strong> The sponsor below is an example showing how names
         appear. Real supporters replace it.
@@ -72,7 +86,7 @@ const funds = [
     </section>
 
     <section class="block independence" aria-labelledby="indep-head">
-      <h2 class="eyebrow" id="indep-head">Editorial independence</h2>
+      <h2 class="eyebrow" id="indep-head">Editorial independence<span class="tr" lang="tr" aria-hidden="true">bağımsızlık</span></h2>
       <p>
         Sponsorship funds the work; it does not buy the words. A tier never implies an
         endorsement, and it never shapes what we write or recommend. When a sponsor also appears
@@ -123,12 +137,15 @@ const funds = [
     border-top: 1px solid var(--cream-faint);
   }
 
+  /* Roomy columns at desktop so each reason wraps in full phrases instead of
+     stranding one or two words per line in a skinny centered strip. Collapses
+     to a single column once a cell can no longer hold a comfortable measure. */
   .funds {
     list-style: none;
     padding: 0;
     display: grid;
-    gap: 1rem;
-    max-width: var(--measure);
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    gap: 1.2rem 2.6rem;
   }
   .funds li {
     padding-left: 1.3rem;
@@ -146,9 +163,16 @@ const funds = [
     background: var(--amber);
   }
 
+  .tiers-note {
+    max-width: var(--measure);
+    margin-bottom: 1.6rem;
+    color: var(--cream-dim);
+    font-size: 0.9375rem;
+  }
+
   .tiers {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
     gap: 1.2rem;
   }
   .tier {
@@ -156,16 +180,55 @@ const funds = [
     border: 1px solid var(--cream-faint);
     border-radius: 0.9rem;
     padding: 1.5rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .tier-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.8rem;
+    margin-bottom: 0.5rem;
   }
   .tier h3 {
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 1.3rem;
-    margin-bottom: 0.5rem;
   }
-  .tier p {
+  .tier-amount {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--amber);
+    white-space: nowrap;
+  }
+  .tier-blurb {
     color: var(--cream-dim);
     font-size: 0.9375rem;
+  }
+  .placement {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--cream-faint);
+    display: grid;
+    gap: 0.55rem;
+  }
+  .placement li {
+    position: relative;
+    padding-left: 1.2rem;
+    font-size: 0.875rem;
+    color: var(--cream-dim);
+  }
+  .placement li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 0.42em;
+    height: 0.42em;
+    border-radius: 0.12em;
+    background: var(--amber);
   }
 
   .wall {
