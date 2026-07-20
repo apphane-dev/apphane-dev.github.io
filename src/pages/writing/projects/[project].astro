@@ -35,7 +35,7 @@ const entries = (await getPublishedWriting()).filter((e) =>
         <a href={projectHomes[project]}>Visit {label} ↗</a>
       </p>
     </div>
-    <section aria-label={`Writing about ${label}`}>
+    <section class="writing-list" aria-label={`Writing about ${label}`}>
       {entries.map((entry) => <WritingCard entry={entry} />)}
     </section>
     <p class="all"><a href="/writing/">← All writing</a></p>

@@ -30,7 +30,7 @@ const entries = (await getPublishedWriting()).filter((e) =>
       <p class="lede">Everything filed under {label}, newest first.</p>
     </div>
     {entries.length > 0 ? (
-      <section aria-label={`Writing on ${label}`}>
+      <section class="writing-list" aria-label={`Writing on ${label}`}>
         {entries.map((entry) => <WritingCard entry={entry} />)}
       </section>
     ) : (

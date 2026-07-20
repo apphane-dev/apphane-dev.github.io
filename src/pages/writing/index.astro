@@ -41,7 +41,7 @@ const counts = Object.fromEntries(
       }
     </nav>
 
-    <section class="feed" aria-label="All writing">
+    <section class="feed writing-list" aria-label="All writing">
       {entries.map((entry) => <WritingCard entry={entry} />)}
       {entries.length === 0 && <p class="empty">Nothing published yet. Check back soon.</p>}
     </section>

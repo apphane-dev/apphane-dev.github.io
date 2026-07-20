@@ -24,7 +24,7 @@ const entries = (await getPublishedWriting()).filter((e) => e.data.kind === kind
       <h1>{info.plural}</h1>
       <p class="lede">{info.blurb}</p>
     </div>
-    <section aria-label={`All ${info.plural.toLowerCase()}`}>
+    <section class="writing-list" aria-label={`All ${info.plural.toLowerCase()}`}>
       {entries.map((entry) => <WritingCard entry={entry} />)}
       {entries.length === 0 && <p class="empty">No {info.plural.toLowerCase()} yet.</p>}
     </section>
