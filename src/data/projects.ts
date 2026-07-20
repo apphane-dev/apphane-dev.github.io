@@ -11,8 +11,32 @@ export interface Project {
   license: string;
   platform: string;
   language: string;
+  /** The project's own subdomain, when it has a home of its own. */
+  home?: string;
   links: { label: string; href: string }[];
 }
+
+/** Every project id, published or not, that writing and recommendations may point at. */
+export const PROJECT_IDS = ['nehir', 'kahraman', 'karkas', 'eczane', 'ses'] as const;
+export type ProjectId = (typeof PROJECT_IDS)[number];
+
+/** Human labels for project ids, including rooms not yet listed as cards. */
+export const projectLabels: Record<ProjectId, string> = {
+  nehir: 'nehir',
+  kahraman: 'kahraman',
+  karkas: 'karkas',
+  eczane: 'eczane',
+  ses: 'ses',
+};
+
+/** The home address for any project id — used to link mentions back to the room. */
+export const projectHomes: Record<ProjectId, string> = {
+  nehir: 'https://nehir.apphane.dev',
+  kahraman: 'https://kahraman.apphane.dev',
+  karkas: 'https://karkas.apphane.dev',
+  eczane: 'https://eczane.apphane.dev',
+  ses: 'https://ses.apphane.dev',
+};
 
 /**
  * Projects currently living in the house. Planned projects get a dark
@@ -42,6 +66,7 @@ export const projects: Project[] = [
     license: 'GPL-2.0-only',
     platform: 'macOS',
     language: 'Swift',
+    home: 'https://nehir.apphane.dev',
     links: [
       { label: 'GitHub', href: 'https://github.com/apphane-dev/nehir' },
       { label: 'Discussions', href: 'https://github.com/apphane-dev/nehir/discussions' },
@@ -71,6 +96,7 @@ export const projects: Project[] = [
     license: 'MIT',
     platform: 'Storybook / Vitest',
     language: 'TypeScript',
+    home: 'https://kahraman.apphane.dev',
     links: [
       { label: 'GitHub', href: 'https://github.com/apphane-dev/kahraman' },
       { label: 'npm', href: 'https://www.npmjs.com/package/kahraman' },
@@ -100,6 +126,7 @@ export const projects: Project[] = [
     license: 'MIT',
     platform: 'Web',
     language: 'TypeScript',
+    home: 'https://karkas.apphane.dev',
     links: [
       { label: 'GitHub', href: 'https://github.com/apphane-dev/karkas' },
       { label: 'Demo', href: 'https://karkas.apphane.dev' },

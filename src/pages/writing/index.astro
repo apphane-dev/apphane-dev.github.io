@@ -1,0 +1,97 @@
+---
+import Base from '../../layouts/Base.astro';
+import SiteHeader from '../../components/site/SiteHeader.astro';
+import SiteFooter from '../../components/site/SiteFooter.astro';
+import WritingCard from '../../components/writing/WritingCard.astro';
+import { getPublishedWriting } from '../../lib/writing';
+import { kinds, KIND_IDS } from '../../data/topics';
+
+const entries = await getPublishedWriting();
+const counts = Object.fromEntries(
+  KIND_IDS.map((k) => [k, entries.filter((e) => e.data.kind === k).length]),
+) as Record<string, number>;
+---
+
+<Base
+  title="Writing — apphane"
+  description="Updates from the projects, opinion pieces with a thesis, and organized working notes. One chronological archive from the house."
+>
+  <a class="skip" href="#main">Skip to content</a>
+  <SiteHeader />
+  <main id="main" class="page">
+    <div class="page-head">
+      <p class="eyebrow">Writing</p>
+      <h1>Notes from the house.</h1>
+      <p class="lede">
+        Three registers of one voice: <strong>updates</strong> when a project ships,
+        <strong>articles</strong> when an idea needs room, and <strong>notes</strong> for the
+        working knowledge worth keeping. All of it here, newest first.
+      </p>
+    </div>
+
+    <nav class="kinds" aria-label="Filter writing by kind">
+      {
+        KIND_IDS.map((k) => (
+          <a href={`/writing/kind/${k}/`} class={`kind-card kind-${k}`}>
+            <span class={`kind-tag kind-${k}`}>{kinds[k].plural}</span>
+            <span class="count">{counts[k]}</span>
+            <span class="blurb">{kinds[k].blurb}</span>
+          </a>
+        ))
+      }
+    </nav>
+
+    <section class="feed" aria-label="All writing">
+      {entries.map((entry) => <WritingCard entry={entry} />)}
+      {entries.length === 0 && <p class="empty">Nothing published yet. Check back soon.</p>}
+    </section>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .kinds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .kind-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 0.4rem 1rem;
+    background: var(--ink-raised);
+    border: 1px solid var(--cream-faint);
+    border-radius: 0.9rem;
+    padding: 1.2rem 1.3rem;
+    color: inherit;
+  }
+
+  .kind-card:hover {
+    border-color: var(--pane, var(--amber));
+  }
+
+  .kind-card .count {
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    color: var(--cream);
+    justify-self: end;
+  }
+
+  .kind-card .blurb {
+    grid-column: 1 / -1;
+    font-size: 0.9rem;
+    color: var(--cream-dim);
+  }
+
+  .feed {
+    margin-bottom: 1rem;
+  }
+
+  .empty {
+    color: var(--cream-dim);
+    padding: 2rem 0;
+  }
+</style>

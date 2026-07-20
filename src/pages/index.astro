@@ -1,5 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
 import WindowStrip from '../components/WindowStrip.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { projects } from '../data/projects';
@@ -9,22 +11,7 @@ import { projects } from '../data/projects';
   title="apphane — a house for small, sharp tools"
   description="apphane, from Turkish -hane (“house of”), is the home of our apps, tools, and ideas. Open source by default, each named in Turkish, each built to do one thing well."
 >
-  <header class="top">
-    <a class="home" href="/" aria-label="apphane home">
-      <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
-        <g fill="var(--amber)">
-          <rect x="8" y="8" width="21" height="21" rx="5"></rect>
-          <rect x="35" y="8" width="21" height="21" rx="5"></rect>
-          <rect x="8" y="35" width="21" height="21" rx="5"></rect>
-        </g>
-        <rect x="35" y="35" width="21" height="21" rx="5" fill="var(--cream)"></rect>
-      </svg>
-      <span>apphane</span>
-    </a>
-    <nav>
-      <a href="https://github.com/apphane-dev">GitHub</a>
-    </nav>
-  </header>
+  <SiteHeader />
 
   <main>
     <section class="hero">
@@ -47,7 +34,7 @@ import { projects } from '../data/projects';
       </div>
     </section>
 
-    <section class="residents" aria-labelledby="residents-heading">
+    <section class="residents" id="residents" aria-labelledby="residents-heading">
       <h2 class="eyebrow" id="residents-heading">In the house</h2>
       {projects.map((project) => <ProjectCard project={project} />)}
     </section>
@@ -82,42 +69,10 @@ import { projects } from '../data/projects';
     </section>
   </main>
 
-  <footer class="bottom">
-    <span>© 2026 apphane</span>
-    <span class="dots" aria-hidden="true">apps · tools · ideas</span>
-    <a href="https://github.com/apphane-dev">github.com/apphane-dev</a>
-  </footer>
+  <SiteFooter />
 </Base>
 
 <style>
-  .top {
-    max-width: var(--page);
-    margin: 0 auto;
-    padding: 1.4rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .home {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: var(--cream);
-  }
-
-  .top nav a {
-    font-weight: 500;
-    color: var(--cream);
-  }
-
-  .top nav a:hover {
-    color: var(--amber);
-  }
-
   main {
     max-width: var(--page);
     margin: 0 auto;
@@ -209,27 +164,6 @@ import { projects } from '../data/projects';
   .rule p {
     color: var(--cream-dim);
     font-size: 0.9875rem;
-  }
-
-  .bottom {
-    max-width: var(--page);
-    margin: 0 auto;
-    padding: 2rem 1.5rem 2.6rem;
-    border-top: 1px solid var(--cream-faint);
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    flex-wrap: wrap;
-    font-size: 0.9375rem;
-    color: var(--cream-dim);
-  }
-
-  .dots {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
   }
 
   @media (max-width: 40rem) {

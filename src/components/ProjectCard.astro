@@ -42,6 +42,13 @@ const { project } = Astro.props;
     <span class="meta">{project.platform}</span>
     <span class="spacer" aria-hidden="true"></span>
     {
+      project.home && (
+        <a class="link home-link" href={project.home}>
+          Visit {project.name} ↗
+        </a>
+      )
+    }
+    {
       project.links.map((link) => (
         <a class="link" href={link.href}>
           {link.label} ↗
@@ -158,6 +165,10 @@ const { project } = Astro.props;
   .link {
     font-weight: 500;
     font-size: 0.9375rem;
+  }
+
+  .home-link {
+    font-weight: 700;
   }
 
   @media (max-width: 40rem) {

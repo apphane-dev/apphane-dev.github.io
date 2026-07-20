@@ -1,0 +1,179 @@
+---
+import Base from '../../layouts/Base.astro';
+import SiteHeader from '../../components/site/SiteHeader.astro';
+import SiteFooter from '../../components/site/SiteFooter.astro';
+import {
+  recommendations,
+  categoryLabels,
+  relationshipLabels,
+  type RecCategory,
+} from '../../data/recommendations';
+import { topicLabel } from '../../data/topics';
+import { formatDate } from '../../lib/writing';
+
+// Group by category, preserving the order categories first appear.
+const order: RecCategory[] = [];
+for (const r of recommendations) if (!order.includes(r.category)) order.push(r.category);
+const grouped = order.map((cat) => ({
+  cat,
+  items: recommendations.filter((r) => r.category === cat),
+}));
+---
+
+<Base
+  title="Recommendations — apphane"
+  description="A short, opinionated shelf of tools, libraries, writing, and services the house stands behind — every pick says why, and every relationship is disclosed."
+>
+  <a class="skip" href="#main">Skip to content</a>
+  <SiteHeader />
+  <main id="main" class="page">
+    <div class="page-head">
+      <p class="eyebrow">Recommendations</p>
+      <h1>A shelf, not a directory.</h1>
+      <p class="lede">
+        Things we actually reach for, kept deliberately short. Every entry says <strong>why</strong>,
+        not just what — and carries the date we last looked, so a stale pick shows its age. Any
+        relationship we have with a pick is named on the card.
+      </p>
+    </div>
+
+    <p class="seed-note">
+      <strong>Seed placeholders.</strong> These entries are examples that show the format. Real
+      recommendations replace them one at a time.
+    </p>
+
+    {
+      grouped.map((group) => (
+        <section class="group" aria-label={categoryLabels[group.cat]}>
+          <h2 class="group-head">{categoryLabels[group.cat]}</h2>
+          <div class="cards">
+            {group.items.map((r) => (
+              <article class="rec">
+                <div class="rec-top">
+                  <h3>
+                    <a href={r.url}>{r.title} ↗</a>
+                  </h3>
+                  {relationshipLabels[r.relationship] && (
+                    <span class="rel">{relationshipLabels[r.relationship]}</span>
+                  )}
+                </div>
+                <p class="summary">{r.summary}</p>
+                <p class="why"><span class="why-label">Why</span> {r.why}</p>
+                <footer class="rec-foot">
+                  <span class="chip-row">
+                    {r.topics.map((t) => (
+                      <a class="chip" href={`/writing/topics/${t}/`}>{topicLabel(t)}</a>
+                    ))}
+                  </span>
+                  <span class="reviewed">Reviewed {formatDate(new Date(r.reviewedAt))}</span>
+                </footer>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .group {
+    margin-bottom: 3rem;
+  }
+
+  .group-head {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--cream-dim);
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--cream-faint);
+    margin-bottom: 1.4rem;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: 1.2rem;
+  }
+
+  .rec {
+    background: var(--ink-raised);
+    border: 1px solid var(--cream-faint);
+    border-radius: 0.9rem;
+    padding: 1.4rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .rec-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.8rem;
+  }
+
+  .rec h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.2rem;
+    line-height: 1.25;
+  }
+
+  .rec h3 a {
+    color: var(--cream);
+  }
+  .rec h3 a:hover {
+    color: var(--amber);
+  }
+
+  .rel {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    border: 1px solid var(--glow);
+    border-radius: 999px;
+    padding: 0.15rem 0.55rem;
+    white-space: nowrap;
+  }
+
+  .summary {
+    color: var(--cream-dim);
+    font-size: 0.9375rem;
+  }
+
+  .why {
+    font-size: 0.9375rem;
+  }
+
+  .why-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--amber);
+    margin-right: 0.35rem;
+  }
+
+  .rec-foot {
+    margin-top: auto;
+    padding-top: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .reviewed {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--cream-dim);
+  }
+</style>

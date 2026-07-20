@@ -1,0 +1,215 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
+import { tiers, sponsors, sponsorLink } from '../data/sponsors';
+
+const funds = [
+  'Time — the scarce input. Sponsorship buys hours to maintain and document, not just to build.',
+  'Infrastructure — domains, CI minutes, and the small recurring costs of keeping things online.',
+  'Accessibility and testing work — the unglamorous parts that make a tool trustworthy.',
+];
+---
+
+<Base
+  title="Sponsors — apphane"
+  description="Why sponsor the apphane house, where the support goes, and how to help. Support keeps the lights on; it never buys editorial control."
+>
+  <a class="skip" href="#main">Skip to content</a>
+  <SiteHeader />
+  <main id="main" class="page">
+    <div class="page-head">
+      <p class="eyebrow">Sponsors</p>
+      <h1>Keep a light on.</h1>
+      <p class="lede">
+        Everything here is open source and free to use. Sponsorship is how people who get value
+        from the house help keep it maintained — and keep the next room getting built.
+      </p>
+      <p class="cta-row">
+        <a class="cta" href={sponsorLink}>Sponsor on GitHub ↗</a>
+        <span class="cta-note">Placeholder link until the account is live.</span>
+      </p>
+    </div>
+
+    <section class="block" aria-labelledby="funds-head">
+      <h2 class="eyebrow" id="funds-head">What it funds</h2>
+      <ul class="funds">
+        {funds.map((f) => <li>{f}</li>)}
+      </ul>
+    </section>
+
+    <section class="block" aria-labelledby="tiers-head">
+      <h2 class="eyebrow" id="tiers-head">Ways to help</h2>
+      <div class="tiers">
+        {
+          tiers.map((tier) => (
+            <article class="tier">
+              <h3>{tier.label}</h3>
+              <p>{tier.blurb}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="block" aria-labelledby="wall-head">
+      <h2 class="eyebrow" id="wall-head">On the wall</h2>
+      <p class="seed-note">
+        <strong>Seed placeholder.</strong> The sponsor below is an example showing how names
+        appear. Real supporters replace it.
+      </p>
+      <ul class="wall">
+        {
+          sponsors.map((s) => (
+            <li class="sponsor">
+              <a href={s.url}>{s.name}</a>
+              <span class="tier-tag">{s.tier}</span>
+              {s.blurb && <span class="sponsor-blurb">{s.blurb}</span>}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="block independence" aria-labelledby="indep-head">
+      <h2 class="eyebrow" id="indep-head">Editorial independence</h2>
+      <p>
+        Sponsorship funds the work; it does not buy the words. A tier never implies an
+        endorsement, and it never shapes what we write or recommend. When a sponsor also appears
+        on the <a href="/recommendations/">recommendations</a> page, that relationship is disclosed
+        in both places. Names and logos are shown only with permission, and removed on request.
+      </p>
+      <p class="contact">
+        For in-kind or non-standard support, open an issue on
+        <a href="https://github.com/apphane-dev">GitHub</a>.
+      </p>
+    </section>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .cta-row {
+    margin-top: 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .cta {
+    display: inline-block;
+    background: var(--amber);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-weight: 700;
+    padding: 0.6rem 1.3rem;
+    border-radius: 0.7rem;
+    box-shadow: 0 0 26px var(--glow);
+  }
+  .cta:hover {
+    background: var(--ember);
+    color: var(--ink);
+  }
+
+  .cta-note {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--cream-dim);
+  }
+
+  .block {
+    padding: 2.6rem 0;
+    border-top: 1px solid var(--cream-faint);
+  }
+
+  .funds {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    max-width: var(--measure);
+  }
+  .funds li {
+    padding-left: 1.3rem;
+    position: relative;
+    color: var(--cream-dim);
+  }
+  .funds li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 0.14em;
+    background: var(--amber);
+  }
+
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.2rem;
+  }
+  .tier {
+    background: var(--ink-raised);
+    border: 1px solid var(--cream-faint);
+    border-radius: 0.9rem;
+    padding: 1.5rem 1.6rem;
+  }
+  .tier h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+  .tier p {
+    color: var(--cream-dim);
+    font-size: 0.9375rem;
+  }
+
+  .wall {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.9rem;
+  }
+  .sponsor {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+  .sponsor > a {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--cream);
+  }
+  .sponsor > a:hover {
+    color: var(--amber);
+  }
+  .tier-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--cream-dim);
+    border: 1px solid var(--cream-faint);
+    border-radius: 999px;
+    padding: 0.12rem 0.55rem;
+  }
+  .sponsor-blurb {
+    flex-basis: 100%;
+    color: var(--cream-dim);
+    font-size: 0.9rem;
+  }
+
+  .independence p {
+    max-width: var(--measure);
+    color: var(--cream-dim);
+  }
+  .independence .contact {
+    margin-top: 1rem;
+  }
+</style>

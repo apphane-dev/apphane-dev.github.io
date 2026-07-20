@@ -1,0 +1,71 @@
+---
+import type { WritingEntry } from '../../lib/writing';
+import { formatDate, isoDate } from '../../lib/writing';
+import { kinds } from '../../data/topics';
+
+interface Props {
+  entry: WritingEntry;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const kind = kinds[data.kind as keyof typeof kinds];
+---
+
+<article class="entry">
+  <a class="entry-link" href={`/writing/${entry.id}/`}>
+    <span class={`kind-tag kind-${data.kind}`}>{kind.label}</span>
+    <h2>{data.title}</h2>
+    <p class="dek">{data.description}</p>
+  </a>
+  <p class="meta">
+    <time datetime={isoDate(data.publishedAt)}>{formatDate(data.publishedAt)}</time>
+    {data.updatedAt && (
+      <span class="updated">· updated {formatDate(data.updatedAt)}</span>
+    )}
+    {data.status && <span class="status">· {data.status}</span>}
+  </p>
+</article>
+
+<style>
+  .entry {
+    padding: 1.7rem 0;
+    border-top: 1px solid var(--cream-faint);
+  }
+
+  .entry-link {
+    display: block;
+    color: inherit;
+  }
+
+  .entry-link:hover h2 {
+    color: var(--amber);
+  }
+
+  .entry h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    margin-top: 0.6rem;
+    transition: color 0.15s ease;
+  }
+
+  .dek {
+    margin-top: 0.5rem;
+    color: var(--cream-dim);
+    max-width: var(--measure);
+  }
+
+  .meta {
+    margin-top: 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--cream-dim);
+  }
+
+  .status {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+</style>

@@ -1,0 +1,278 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import SiteHeader from '../../components/site/SiteHeader.astro';
+import SiteFooter from '../../components/site/SiteFooter.astro';
+import { getPublishedWriting, formatDate, isoDate } from '../../lib/writing';
+import { kinds, topicLabel, type TopicId } from '../../data/topics';
+import { projectLabels, projectHomes, type ProjectId } from '../../data/projects';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('writing');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+const kind = kinds[data.kind as keyof typeof kinds];
+const topicIds = data.topics as TopicId[];
+const projectIds = data.projects as ProjectId[];
+
+const authors = await Promise.all(
+  data.authors.map(async (ref) => (await getEntry(ref))?.data.name).filter(Boolean),
+);
+
+const all = await getPublishedWriting();
+const related = all
+  .filter(
+    (e) =>
+      e.id !== entry.id &&
+      (e.data.kind === data.kind ||
+        e.data.topics.some((t) => data.topics.includes(t))),
+  )
+  .slice(0, 3);
+---
+
+<Base
+  title={`${data.title} — apphane`}
+  description={data.description}
+  ogType="article"
+  publishedAt={data.publishedAt}
+  updatedAt={data.updatedAt}
+>
+  <a class="skip" href="#main">Skip to content</a>
+  <SiteHeader />
+  <main id="main" class="page article">
+    <a class="back" href="/writing/">← Writing</a>
+
+    <header class="head">
+      <div class="tags">
+        <span class={`kind-tag kind-${data.kind}`}>{kind.label}</span>
+        {data.changeType && <span class="sub-tag">{data.changeType}</span>}
+        {data.release && <span class="sub-tag">{data.release}</span>}
+        {data.noteType && <span class="sub-tag">{data.noteType.replace('-', ' ')}</span>}
+        {data.status && <span class="sub-tag">{data.status}</span>}
+      </div>
+      <h1>{data.title}</h1>
+      {data.thesis && <p class="thesis">{data.thesis}</p>}
+      <p class="byline">
+        {authors.join(', ')} ·
+        <time datetime={isoDate(data.publishedAt)}>{formatDate(data.publishedAt)}</time>
+        {data.updatedAt && <> · updated {formatDate(data.updatedAt)}</>}
+      </p>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <footer class="tax">
+      {
+        projectIds.length > 0 && (
+          <div class="tax-row">
+            <span class="tax-label">Projects</span>
+            <span class="chip-row">
+              {projectIds.map((p) => (
+                <a class="chip" href={`/writing/projects/${p}/`}>{projectLabels[p]}</a>
+              ))}
+            </span>
+          </div>
+        )
+      }
+      {
+        topicIds.length > 0 && (
+          <div class="tax-row">
+            <span class="tax-label">Topics</span>
+            <span class="chip-row">
+              {topicIds.map((t) => (
+                <a class="chip" href={`/writing/topics/${t}/`}>{topicLabel(t)}</a>
+              ))}
+            </span>
+          </div>
+        )
+      }
+      {
+        projectIds.length > 0 && (
+          <p class="visit">
+            Read more in the room:
+            {projectIds.map((p) => (
+              <a href={projectHomes[p]}> {projectLabels[p]} ↗</a>
+            ))}
+          </p>
+        )
+      }
+    </footer>
+
+    {
+      related.length > 0 && (
+        <aside class="related" aria-label="Related writing">
+          <p class="eyebrow">Keep reading</p>
+          <ul>
+            {related.map((e) => (
+              <li>
+                <a href={`/writing/${e.id}/`}>{e.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )
+    }
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .article {
+    max-width: 46rem;
+  }
+
+  .back {
+    display: inline-block;
+    margin: 1.6rem 0 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--cream-dim);
+  }
+  .back:hover {
+    color: var(--amber);
+  }
+
+  .head {
+    padding: 1.4rem 0 2.4rem;
+    border-bottom: 1px solid var(--cream-faint);
+    margin-bottom: 2.4rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+    align-items: center;
+    margin-bottom: 1.1rem;
+  }
+
+  .sub-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--cream-dim);
+    border: 1px solid var(--cream-faint);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+  }
+
+  .head h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+
+  .thesis {
+    margin-top: 1.1rem;
+    font-size: 1.2rem;
+    color: var(--cream);
+    border-left: 2px solid var(--amber);
+    padding-left: 1rem;
+  }
+
+  .byline {
+    margin-top: 1.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--cream-dim);
+  }
+
+  /* prose */
+  .prose :global(h2) {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin: 2.4rem 0 0.8rem;
+  }
+  .prose :global(h3) {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin: 1.8rem 0 0.6rem;
+  }
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 1.1rem 0;
+  }
+  .prose :global(li) {
+    margin: 0.35rem 0;
+  }
+  .prose :global(blockquote) {
+    border-left: 2px solid var(--cream-faint);
+    padding: 0.2rem 0 0.2rem 1.1rem;
+    margin: 1.4rem 0;
+    color: var(--cream-dim);
+  }
+  .prose :global(pre) {
+    background: var(--ink-raised);
+    border: 1px solid var(--cream-faint);
+    border-radius: 0.7rem;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    margin: 1.4rem 0;
+  }
+  .prose :global(:not(pre) > code) {
+    background: var(--ink-raised);
+    border: 1px solid var(--cream-faint);
+    border-radius: 0.35rem;
+    padding: 0.1rem 0.4rem;
+    color: var(--amber);
+  }
+
+  .tax {
+    margin-top: 3rem;
+    padding-top: 1.8rem;
+    border-top: 1px solid var(--cream-faint);
+    display: grid;
+    gap: 1rem;
+  }
+
+  .tax-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .tax-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--cream-dim);
+    min-width: 4.5rem;
+  }
+
+  .visit {
+    font-size: 0.9375rem;
+    color: var(--cream-dim);
+  }
+
+  .related {
+    margin-top: 3rem;
+  }
+  .related ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .related li a {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--cream);
+  }
+  .related li a:hover {
+    color: var(--amber);
+  }
+</style>

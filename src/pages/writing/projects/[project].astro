@@ -1,0 +1,52 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SiteHeader from '../../../components/site/SiteHeader.astro';
+import SiteFooter from '../../../components/site/SiteFooter.astro';
+import WritingCard from '../../../components/writing/WritingCard.astro';
+import { getPublishedWriting } from '../../../lib/writing';
+import { PROJECT_IDS, projectLabels, projectHomes, type ProjectId } from '../../../data/projects';
+
+export async function getStaticPaths() {
+  const entries = await getPublishedWriting();
+  return PROJECT_IDS.filter((p) =>
+    entries.some((e) => e.data.projects.includes(p)),
+  ).map((project) => ({ params: { project } }));
+}
+
+const { project } = Astro.params as { project: ProjectId };
+const label = projectLabels[project];
+const entries = (await getPublishedWriting()).filter((e) =>
+  e.data.projects.includes(project),
+);
+---
+
+<Base
+  title={`${label} — apphane writing`}
+  description={`Updates and writing about ${label}.`}
+>
+  <a class="skip" href="#main">Skip to content</a>
+  <SiteHeader />
+  <main id="main" class="page">
+    <div class="page-head">
+      <p class="eyebrow">Writing / Project</p>
+      <h1>{label}</h1>
+      <p class="lede">
+        Everything the house has written about {label}.
+        <a href={projectHomes[project]}>Visit {label} ↗</a>
+      </p>
+    </div>
+    <section aria-label={`Writing about ${label}`}>
+      {entries.map((entry) => <WritingCard entry={entry} />)}
+    </section>
+    <p class="all"><a href="/writing/">← All writing</a></p>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .all {
+    margin-top: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+</style>

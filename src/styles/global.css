@@ -80,3 +80,124 @@ code {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---- shared page furniture -------------------------------------------- */
+
+.page {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+/* Skip visual clutter but keep a keyboard target for the main content. */
+.skip {
+  position: absolute;
+  left: -999px;
+}
+.skip:focus {
+  position: static;
+  display: inline-block;
+  margin: 0.6rem 1.5rem;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--amber);
+  margin-bottom: 1.6rem;
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 0.15em;
+  background: var(--amber);
+  margin-right: 0.7em;
+}
+
+.page-head {
+  padding: 2.5rem 0 2.8rem;
+  border-bottom: 1px solid var(--cream-faint);
+  margin-bottom: 2.8rem;
+}
+
+.page-head h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.page-head .lede {
+  max-width: var(--measure);
+  margin-top: 1.1rem;
+  font-size: 1.125rem;
+  color: var(--cream-dim);
+}
+
+/* A small labelled marker for a piece of writing's kind — echoes the
+   lit/dark window panes on the home page. */
+.kind-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+}
+
+.kind-tag::before {
+  content: '';
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 0.16em;
+  background: var(--pane, var(--cream-dim));
+  box-shadow: 0 0 10px var(--glow-pane, transparent);
+}
+
+.kind-update {
+  --pane: var(--amber);
+  --glow-pane: var(--glow);
+}
+.kind-article {
+  --pane: var(--cream);
+}
+.kind-note {
+  --pane: var(--ember);
+}
+
+.chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--cream);
+  border: 1px solid var(--cream-faint);
+  border-radius: 999px;
+  padding: 0.22rem 0.72rem;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.seed-note {
+  border: 1px dashed var(--cream-faint);
+  border-radius: 0.7rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.875rem;
+  color: var(--cream-dim);
+  margin-bottom: 2rem;
+}
+.seed-note strong {
+  color: var(--amber);
+}

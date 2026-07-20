@@ -9,9 +9,15 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
+  /** 'article' switches Open Graph and enables the dates below. */
+  ogType?: 'website' | 'article';
+  publishedAt?: Date;
+  updatedAt?: Date;
 }
 
-const { title, description } = Astro.props;
+const { title, description, ogType = 'website', publishedAt, updatedAt } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('apphane-logo.png', Astro.site);
 ---
 
@@ -23,11 +29,24 @@ const ogImage = new URL('apphane-logo.png', Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={Astro.site} />
-    <meta property="og:type" content="website" />
+    <link rel="canonical" href={canonical} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="apphane — writing"
+      href={new URL('rss.xml', Astro.site)}
+    />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    {publishedAt && (
+      <meta property="article:published_time" content={publishedAt.toISOString()} />
+    )}
+    {updatedAt && (
+      <meta property="article:modified_time" content={updatedAt.toISOString()} />
+    )}
     <meta name="twitter:card" content="summary" />
     <meta name="theme-color" content="#00030C" />
   </head>

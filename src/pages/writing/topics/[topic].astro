@@ -1,0 +1,49 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SiteHeader from '../../../components/site/SiteHeader.astro';
+import SiteFooter from '../../../components/site/SiteFooter.astro';
+import WritingCard from '../../../components/writing/WritingCard.astro';
+import { getPublishedWriting } from '../../../lib/writing';
+import { TOPIC_IDS, topicLabel, type TopicId } from '../../../data/topics';
+
+export async function getStaticPaths() {
+  const entries = await getPublishedWriting();
+  return TOPIC_IDS.filter((t) =>
+    entries.some((e) => e.data.topics.includes(t)),
+  ).map((topic) => ({ params: { topic } }));
+}
+
+const { topic } = Astro.params as { topic: TopicId };
+const label = topicLabel(topic);
+const entries = (await getPublishedWriting()).filter((e) =>
+  e.data.topics.includes(topic),
+);
+---
+
+<Base
+  title={`${label} — apphane writing`}
+  description={`Writing from the house tagged ${label}.`}
+>
+  <a class="skip" href="#main">Skip to content</a>
+  <SiteHeader />
+  <main id="main" class="page">
+    <div class="page-head">
+      <p class="eyebrow">Writing / Topic</p>
+      <h1>{label}</h1>
+      <p class="lede">Everything filed under {label}, newest first.</p>
+    </div>
+    <section aria-label={`Writing on ${label}`}>
+      {entries.map((entry) => <WritingCard entry={entry} />)}
+    </section>
+    <p class="all"><a href="/writing/">← All writing</a></p>
+  </main>
+  <SiteFooter />
+</Base>
+
+<style>
+  .all {
+    margin-top: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+</style>

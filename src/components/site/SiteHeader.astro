@@ -1,0 +1,103 @@
+---
+/**
+ * Shared house header. The nav stays restrained: the four rooms plus the door
+ * to GitHub. It wraps rather than collapsing behind a menu, so it stays usable
+ * on a phone with no JavaScript.
+ */
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+
+const links = [
+  { label: 'Projects', href: '/#residents', match: /^\/$/ },
+  { label: 'Writing', href: '/writing/', match: /^\/writing/ },
+  { label: 'Recommendations', href: '/recommendations/', match: /^\/recommendations/ },
+  { label: 'Sponsors', href: '/sponsors/', match: /^\/sponsors/ },
+];
+---
+
+<header class="top">
+  <a class="home" href="/" aria-label="apphane home">
+    <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
+      <g fill="var(--amber)">
+        <rect x="8" y="8" width="21" height="21" rx="5"></rect>
+        <rect x="35" y="8" width="21" height="21" rx="5"></rect>
+        <rect x="8" y="35" width="21" height="21" rx="5"></rect>
+      </g>
+      <rect x="35" y="35" width="21" height="21" rx="5" fill="var(--cream)"></rect>
+    </svg>
+    <span>apphane</span>
+  </a>
+  <nav aria-label="Primary">
+    {
+      links.map((link) => (
+        <a
+          href={link.href}
+          aria-current={link.match.test(path) ? 'page' : undefined}
+        >
+          {link.label}
+        </a>
+      ))
+    }
+    <a class="ext" href="https://github.com/apphane-dev">GitHub&nbsp;↗</a>
+  </nav>
+</header>
+
+<style>
+  .top {
+    max-width: var(--page);
+    margin: 0 auto;
+    padding: 1.4rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem 1.4rem;
+    flex-wrap: wrap;
+  }
+
+  .home {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--cream);
+  }
+
+  nav {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem 1.15rem;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    font-weight: 500;
+    font-size: 0.9375rem;
+    color: var(--cream);
+    position: relative;
+    padding-bottom: 0.15rem;
+  }
+
+  nav a:hover {
+    color: var(--amber);
+  }
+
+  nav a[aria-current='page'] {
+    color: var(--amber);
+  }
+
+  nav a[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.1rem;
+    height: 1.5px;
+    background: var(--amber);
+    border-radius: 999px;
+  }
+
+  .ext {
+    color: var(--cream-dim);
+  }
+</style>

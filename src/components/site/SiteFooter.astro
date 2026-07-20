@@ -1,0 +1,44 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="bottom">
+  <span>© {year} apphane</span>
+  <nav class="foot-nav" aria-label="Footer">
+    <a href="/writing/">Writing</a>
+    <a href="/recommendations/">Recommendations</a>
+    <a href="/sponsors/">Sponsors</a>
+    <a href="/rss.xml">RSS</a>
+  </nav>
+  <a href="https://github.com/apphane-dev">github.com/apphane-dev</a>
+</footer>
+
+<style>
+  .bottom {
+    max-width: var(--page);
+    margin: 0 auto;
+    padding: 2rem 1.5rem 2.6rem;
+    border-top: 1px solid var(--cream-faint);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.6rem 1.4rem;
+    flex-wrap: wrap;
+    font-size: 0.9375rem;
+    color: var(--cream-dim);
+  }
+
+  .foot-nav {
+    display: flex;
+    gap: 0.4rem 1.1rem;
+    flex-wrap: wrap;
+  }
+
+  .foot-nav a {
+    color: var(--cream-dim);
+  }
+
+  .foot-nav a:hover {
+    color: var(--amber);
+  }
+</style>
