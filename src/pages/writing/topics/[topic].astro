@@ -7,10 +7,7 @@ import { getPublishedWriting } from '../../../lib/writing';
 import { TOPIC_IDS, topicLabel, type TopicId } from '../../../data/topics';
 
 export async function getStaticPaths() {
-  const entries = await getPublishedWriting();
-  return TOPIC_IDS.filter((t) =>
-    entries.some((e) => e.data.topics.includes(t)),
-  ).map((topic) => ({ params: { topic } }));
+  return TOPIC_IDS.map((topic) => ({ params: { topic } }));
 }
 
 const { topic } = Astro.params as { topic: TopicId };
@@ -32,15 +29,25 @@ const entries = (await getPublishedWriting()).filter((e) =>
       <h1>{label}</h1>
       <p class="lede">Everything filed under {label}, newest first.</p>
     </div>
-    <section aria-label={`Writing on ${label}`}>
-      {entries.map((entry) => <WritingCard entry={entry} />)}
-    </section>
+    {entries.length > 0 ? (
+      <section aria-label={`Writing on ${label}`}>
+        {entries.map((entry) => <WritingCard entry={entry} />)}
+      </section>
+    ) : (
+      <p class="empty">No writing on this topic yet.</p>
+    )}
     <p class="all"><a href="/writing/">← All writing</a></p>
   </main>
   <SiteFooter />
 </Base>
 
 <style>
+  .empty {
+    margin-top: 2rem;
+    color: var(--cream-dim);
+    font-style: italic;
+  }
+
   .all {
     margin-top: 2rem;
     font-family: var(--font-mono);

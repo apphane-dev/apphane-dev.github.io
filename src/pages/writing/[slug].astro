@@ -51,7 +51,7 @@ const related = all
         <span class={`kind-tag kind-${data.kind}`}>{kind.label}</span>
         {data.changeType && <span class="sub-tag">{data.changeType}</span>}
         {data.release && <span class="sub-tag">{data.release}</span>}
-        {data.noteType && <span class="sub-tag">{data.noteType.replace('-', ' ')}</span>}
+        {data.noteType && <span class="sub-tag">{data.noteType.replaceAll('-', ' ')}</span>}
         {data.status && <span class="sub-tag">{data.status}</span>}
       </div>
       <h1>{data.title}</h1>
