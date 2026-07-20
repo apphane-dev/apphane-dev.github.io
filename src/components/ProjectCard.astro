@@ -37,7 +37,7 @@ const { project } = Astro.props;
   }
 
   <footer class="card-foot">
-    <span class="meta">{project.license}</span>
+    {project.license && <span class="meta">{project.license}</span>}
     <span class="meta">{project.language}</span>
     <span class="meta">{project.platform}</span>
     <span class="spacer" aria-hidden="true"></span>

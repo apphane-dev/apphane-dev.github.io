@@ -8,7 +8,7 @@ export interface Project {
   description: string;
   features: string[];
   install?: { label: string; command: string };
-  license: string;
+  license?: string;
   platform: string;
   language: string;
   /** The project's own subdomain, when it has a home of its own. */
@@ -132,6 +132,53 @@ export const projects: Project[] = [
       { label: 'Demo', href: 'https://karkas.apphane.dev' },
       { label: 'Storybook', href: 'https://karkas.apphane.dev/storybook/' },
     ],
+  },
+  {
+    id: 'eczane',
+    name: 'eczane',
+    turkish: { word: 'eczane', meaning: 'pharmacy' },
+    tagline: 'The on-duty pharmacy in Antalya, found fast.',
+    description:
+      'A static, multilingual, installable web app for finding on-duty (nöbetçi) pharmacies in Antalya. A scraper commits a static city snapshot and the browser does the rest — grouped listings, maps, calling, directions, and nearest-first geolocation — with no backend to run.',
+    features: [
+      'On-duty pharmacies in Antalya',
+      'District-grouped listings',
+      'Nearest-first geolocation sort',
+      'MapLibre GL maps',
+      'Phone, WhatsApp, and directions',
+      'Turkish, English, and Russian',
+      'Installable offline app shell',
+    ],
+    platform: 'Web',
+    language: 'Astro',
+    home: 'https://eczane.apphane.dev',
+    links: [{ label: 'GitHub', href: 'https://github.com/apphane-dev/eczane' }],
+  },
+  {
+    id: 'ses',
+    name: 'ses',
+    turkish: { word: 'ses', meaning: 'voice / sound' },
+    tagline: 'Clone a voice, then narrate a whole script in it.',
+    description:
+      'A local voice-cloning voiceover pipeline: give it a voice sample, a Markdown script, and settings, and it returns narration in that voice — one WAV per section plus a concatenated full.wav. Everything runs on your own machine through a staged synthesis pipeline, with quality gates that re-roll garbled or over-paused takes.',
+    features: [
+      'Qwen3-TTS voice cloning',
+      'ICL and x-vector clone modes',
+      'Staged synthesis pipeline',
+      'Garble and pause quality gates',
+      'Safe LavaSR enhancement',
+      'Markdown script format',
+      'Runs locally on MPS or CPU',
+    ],
+    install: {
+      label: 'Clone the repo',
+      command: 'git clone https://github.com/apphane-dev/ses.git',
+    },
+    license: 'MIT',
+    platform: 'macOS',
+    language: 'Python',
+    home: 'https://ses.apphane.dev',
+    links: [{ label: 'GitHub', href: 'https://github.com/apphane-dev/ses' }],
   },
 ];
 
