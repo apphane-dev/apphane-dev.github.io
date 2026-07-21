@@ -43,7 +43,10 @@ const caption = `${projectCount === 1 ? 'One light is' : `${projectCount} lights
   .strip {
     display: flex;
     justify-content: center;
-    gap: 1.1rem;
+    column-gap: 1.1rem;
+    /* Labels are absolutely positioned below each window, so wrapped rows
+       need extra vertical room to clear the previous row's labels. */
+    row-gap: 2.4rem;
     flex-wrap: wrap;
   }
 
