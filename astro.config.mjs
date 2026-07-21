@@ -6,4 +6,5 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://apphane.dev',
   integrations: [sitemap()],
+  server: { allowedHosts: true },
 });
