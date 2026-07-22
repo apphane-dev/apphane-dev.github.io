@@ -1,0 +1,11 @@
+[tasks.check]
+description = "Run Astro diagnostics"
+depends = ["prepare"]
+run = "astro check"
+
+[tasks.ci]
+description = "Run CI checks and production build"
+run = [
+  { task = "check" },
+  { task = "build" },
+]
