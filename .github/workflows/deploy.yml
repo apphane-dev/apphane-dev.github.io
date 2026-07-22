@@ -23,6 +23,8 @@ jobs:
         with:
           install: true
           cache: true
+      - name: Config mise
+        run: mise settings experimental=true
       - name: Install dependencies
         run: mise install
       - name: Build
